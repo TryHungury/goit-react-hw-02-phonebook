@@ -52,6 +52,7 @@ export const PhoneBook = () => {
             <NameTitle>Name</NameTitle>
         </Box>
         <NameInput
+            placeholder="pls input your name..."
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
