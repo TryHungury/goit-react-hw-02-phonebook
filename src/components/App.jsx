@@ -56,12 +56,10 @@ export class App extends Component {
 
     this.setState((prevState)=>{
       return {
-        contacts: [...prevState.contacts, contact]
+        contacts: [...prevState.contacts, contact],
+        name: "", number: "",
       }
     })
-    
-    this.state.name = "";
-    this.state.number = "";
   }
 
   handleDeleteContact = (id) => {
