@@ -33,13 +33,6 @@ export class App extends Component {
     filter: '',
   }
 
-  // handleChange = (e) => {
-  //   const inputName = e.target.name;
-  //   const inputValue = e.target.value;
-
-  //   return this.setState({[inputName] : inputValue})
-  // }
-
   addNewContact = ({name, number}) => {
     let count = 0;
 
@@ -86,7 +79,9 @@ export class App extends Component {
 
   render() {
     const {contacts, filter} = this.state;
-    const visibleContacts = contacts.filter((contact) => contact.name.includes(filter))
+
+    const filterNormalize = filter.toLowerCase();
+    const visibleContacts = contacts.filter((contact) => contact.name.toLowerCase().includes(filterNormalize))
 
     return (
       <Box height= "100%"  display= "flex" flexDirection="column" justifyContent= "space-evenly" alignItems= "center" fontSize= "40px" backgroundColor="backgroundSecondary">
