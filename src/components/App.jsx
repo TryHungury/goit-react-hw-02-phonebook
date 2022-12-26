@@ -31,35 +31,42 @@ export class App extends Component {
   state = {
     contacts: [],
     filter: '',
-    name: '',
-    number: ''
   }
 
-  handleChange = (e) => {
-    const inputName = e.target.name;
-    const inputValue = e.target.value;
+  // handleChange = (e) => {
+  //   const inputName = e.target.name;
+  //   const inputValue = e.target.value;
 
-    return this.setState({[inputName] : inputValue})
-  }
+  //   return this.setState({[inputName] : inputValue})
+  // }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  addNewContact = ({name, number}) => {
+    let count = 0;
 
-    const name = e.target.elements.name.value;
-    const number = e.target.elements.number.value;
-
-    const contact = {
-      id: nanoid(),
-      name,
-      number,
+    this.state.contacts.map((contact)=>{
+     if (contact.name === name) {
+      return count += 1;
     }
-
-    this.setState((prevState)=>{
-      return {
-        contacts: [...prevState.contacts, contact],
-        name: "", number: "",
-      }
+    
+    return count
     })
+
+    if (count === 0) {
+      const contact = {
+        id: nanoid(),
+        name,
+        number,
+      }
+  
+      this.setState((prevState)=>{
+        return {
+          contacts: [ contact, ...prevState.contacts ],
+        }
+      })
+
+    } else {
+      return alert('This contact is already in your phone book...')
+    }
   }
 
   handleDeleteContact = (id) => {
@@ -78,7 +85,7 @@ export class App extends Component {
   }
 
   render() {
-    const {name, number, contacts, filter} = this.state;
+    const {contacts, filter} = this.state;
     const visibleContacts = contacts.filter((contact) => contact.name.includes(filter))
 
     return (
@@ -86,7 +93,7 @@ export class App extends Component {
         <Title>Ukraine Win❤️</Title>
         <Box display="flex" flexDirection="column" justifyContent= "space-evenly" alignItems= "center" as={"section"}>
           <TitleH2>Phonebook</TitleH2>
-          <PhoneBook name={name} number={number} onChange={this.handleChange} onSubmit={this.handleSubmit}></PhoneBook>
+          <PhoneBook onSubmit={this.addNewContact}></PhoneBook>
         </Box>
         <Box display="flex" flexDirection="column" justifyContent= "space-evenly" alignItems= "center" as={"section"}>
           <TitleH2>Contacts</TitleH2>

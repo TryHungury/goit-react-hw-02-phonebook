@@ -1,4 +1,5 @@
 import { Box } from "components/box/Box"
+import { Component } from "react"
 import styled from "styled-components"
 
 const Label = styled.label`
@@ -58,9 +59,35 @@ const AddContactBtn = styled.button`
     color: ${p=>p.theme.colors.text};
   }
 `
+export class PhoneBook extends Component {
 
-export const PhoneBook = ({name, number, onChange, onSubmit}) => {
-  return <Box onSubmit={onSubmit} display="flex" flexWrap="wrap" width="650px" justifyContent="space-evenly" alignItems="start" mt="3" as={"form"}>
+  state = {
+    name: '',
+    number: ''
+  }
+
+  reset = () => {
+    this.setState({name: "", number: ""})
+  }
+
+  handleChange = (e) => {
+      const inputName = e.target.name;
+      const inputValue = e.target.value;
+    
+      return this.setState({[inputName] : inputValue})
+    }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    this.props.onSubmit(this.state);
+
+    this.reset()
+  }
+
+    render() {
+      const {name, number} = this.state;
+    return <Box onSubmit={this.handleSubmit} display="flex" flexWrap="wrap" width="650px" justifyContent="space-evenly" alignItems="start" mt="3" as={"form"}>
         <Label>Name
         <NameInput
             placeholder="pls input your name..."
@@ -70,7 +97,7 @@ export const PhoneBook = ({name, number, onChange, onSubmit}) => {
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
             value={name}
-            onChange={onChange}>
+            onChange={this.handleChange}>
         </NameInput>
         </Label>
         <Label>Number
@@ -82,9 +109,10 @@ export const PhoneBook = ({name, number, onChange, onSubmit}) => {
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
             value={number}
-            onChange={onChange}>
+            onChange={this.handleChange}>
         </TelInput>
         </Label>
         <AddContactBtn type="submit">Add contact</AddContactBtn>
     </Box>
+      }
 }
